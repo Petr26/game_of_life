@@ -1,84 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+<html>
+	<head>
+		<title>Game of Life</title>
+		<meta charset="UTF-8"/>
+		<link rel="stylesheet" href="css/style.css" />
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+	</head>
+	<body ng-app="GameOfLife"> <!-- vyuzivaji controllery-->
 
-    <title>opt.is linkshortener</title>
+		<main>
+			<div ng-controller="GameOfLife">
 
-    <link rel="stylesheet" href="css/spring-core.css" />
+				<h1>Game of Life</h1>
+				Height: <input type="text" ng-model="height"/>
+				Width: <input type="text" ng-model="width"/>
+				<button ng-click="newGame(1)">New</button>			
+				<button ng-click="updateGame(2)">Infinite pattern</button>
+				interval: <input type="text" ng-model="runnerInterval"/>
+				<button ng-click="next()">Next step</button>
+				<button ng-click="runIt()">Run</button>
+				<button ng-click="stopIt()">Stop</button>
 
-    <!--<link href="js/angular.min.js" th:href="@{js/angular.min.js}" rel="text/javascript" media="screen"/>-->
-    <!--<link href="js/script.js" th:href="@{js/script.js}" rel="text/javascript" media="screen"/>-->
-    <script type="text/javascript" src="js/angular.min.js" th:href="@{js/angular.min.js}"></script>
-    <script type="text/javascript" src="js/script.js" th:href="@{js/script.js}"></script>
-    <!--<link href="css/spring-core.css" th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>-->
-
-</head>
-<body ng-app="TODOApp"> <!-- vyuzivaji controllery-->
-
-<main>
-    <div id="top" ng-controller="TasksCtrl">
-        <h1>TODO - moje úkoly {{pozdrav}}</h1>
-
-        <!-- ukoly -->
-        <div id="tasks">
-            <!-- <input ng-model="pozdrav" />  Jak tady menim ten pozdrav, tak se vsude taky prepise, kde je {{pozdrav}} -->
-            <!-- ukol -->
-            <div class="task" ng-repeat="t in tasks" ng-click="showTask(t)"
-                 ng-class="{active: currentTask &amp;&amp; currentTask.id == t.id}">  <!-- podmika kdy chceme templates.css tridu pro zobrazeni-->
-                <input type="checkbox" ng-model="t.completed"/>    <!-- complete je checkbox true nebo false-->
-                <span>{{t.title}}</span>
-                <p>
-                    {{t.description}}
-                </p>
-                <button ng-click="deleteTask(t)">Smazat</button>
-            </div>
-
-
-        </div>
-
-    </div>
-
-    <!-- novy ukol -->
-    <div ng-controller="NewTaskCtrl">
-        <form name="add" id="bottom" ng-submit="addTask()">
-            <fieldset>
-                <legend>Nový úkol</legend>
-
-                <label>Název úkolu:</label>
-                <input ng-model="title" type="text" name="title" />
-                <br />
-
-                <label>Popis:</label>
-                <textarea ng-model="description" name="description"></textarea>
-                <br />
-
-                <input type="submit" value="Přidat" />
-            </fieldset>
-        </form>
-    </div>
-</main>
-
-<aside ng-controller="TaskEditCtrl">
-    <!-- detail ukolu -->
-
-    <form name="update" class="clearfix" ng-show="currentTask"
-          ng-submit="updateTask()">
-        <h2>{{currentTask.title}}</h2>
-
-        <label><input ng-model="currentTask.completed" type="checkbox" name="completed" value="1" />Hotovo</label>
-
-        <label>Název úkolu:</label>
-        <input ng-model="currentTask.title" type="text" name="title" />
-
-        <label>Popis:</label>
-        <textarea ng-model="currentTask.description"  name="description"></textarea>
-
-        <input type="submit" value="Upravit" />
-    </form>
-
-</aside>
-
-</body>
+				<table id="board">
+					<tr ng-repeat="row in board track by $index" >
+						<td ng-repeat="cell in row track by $index" ng-click="toggle($parent.$index, $index)"
+							class="{{cellClass($parent.$index, $index)}}">
+							<span ng-show="cell">☥</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</main>
+	</body>
 </html>

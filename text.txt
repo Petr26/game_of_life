@@ -1,4 +1,6 @@
 omg coje
 testuju co se deje
 
-amend
+amend 
+NOW
+PC commit
